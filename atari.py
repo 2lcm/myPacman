@@ -3,6 +3,7 @@ import pygame, sys
 cell_size = 5
 cols = 30
 rows = 40
+maxfps = 30
 
 colors = [
     (0 ,0 ,0),
@@ -38,6 +39,7 @@ class atari(object):
         self.gameover = False
         self.paused = False
         self.score = 0
+        self.board = None
 
     def new_board(self):
         brick_start = 3
@@ -69,7 +71,6 @@ class atari(object):
             new_x = cols - len(self.plate)
         self.plate_x = new_x
         self.join_matrixes(self.plate, self.board, self.plate_x, self.plate_y)
-
 
     def move_ball(self):
         self.collision()
@@ -136,72 +137,72 @@ class atari(object):
                 self.width // 2 - msgim_center_x,
                 self.height // 2 - msgim_center_y + i*22))
 
-game = atari()
-game.new_board()
-game.new_plate()
-game.move_plate(3)
-game.screen.fill((0, 0, 0))
-game.center_msg("horse")
-pygame.display.update()
-print(1)
+    def draw_matrix(self, matrix, offset):
+        off_x, off_y = offset
+        for y, row in enumerate(matrix):
+            for x, val in enumerate(row):
+                if val:
+                    pygame.draw.rect(
+                        self.screen,
+                        colors[val],
+                        pygame.Rect(
+                            (off_x + x) *
+                            cell_size,
+                            (off_y+y) *
+                            cell_size,
+                            cell_size,
+                            cell_size), 0)
 
-#     def draw_matrix(self, matrix, offset):
-#         off_x, off_y = offset
-#         for y, row in enumerate(matrix):
-#             for x, val in enumerate(row):
-#                 if val:
-#                     pygame.draw.rect(
-#                         self.screen,
-#                         colors[val],
-#                         pygame.Rect(
-#                             (off_x + x) *
-#                             cell_size,
-#                             (off_y+y) *
-#                             cell_size,
-#                             cell_size,
-#                             cell_size), 0)
-#
-#
-#     def run(self):
-#         dont_burn_my_cpu = pygame.time.Clock()
-#         key_actions = {
-#             'ESCAPE' : self.quit,
-#             'LEFT' : lambda: self.move_plate(-1),
-#             'RIGHT' : lambda: self.move_plate(+1),
-#             'p' : self.toggle_pause,
-#             'SPACE' : self.start_game
-#         }
-#         while True:
-#             # display update
-#             self.screen.fill((0, 0, 0))
-#             if self.gameover:
-#                 self.center_msg("""Game Over Horse! \n
-#                 Your score : %d Press space to continue""" % self.score)
-#             else:
-#                 if self.paused:
-#                     self.center_msg("Paused horse!")
-#                 else:
-#                     self.draw_matrix(self.board, (0,0))
-#                     pass
-#
-#             pygame.display.update()
-#
-#             for event in pygame.event.get():
-#                 if event.type == pygame.USERVENT + 1:
-#                     self.drop(False)
-#                 elif event.type == pygame.QUIT:
-#                     self.quit()
-#                 elif event.type == pygame.KEYDOWN
-#                     for key in key_actions:
-#                         if event.key == eval("pygame.K_"
-#                                              + key):
-#                             key_actions[key]()
-#
-#
-#             dont_burn_my_cpu(maxfps)
-#
+    def start_game(self):
+        self.new_board()
+        self.new_plate()
+        self.new_ball()
+        self.gameover = False
+        self.paused = False
+
+
+    def run(self):
+        dont_burn_my_cpu = pygame.time.Clock()
+        key_actions = {
+            'ESCAPE' : sys.exit,
+            'LEFT' : lambda: self.move_plate(-1),
+            'RIGHT' : lambda: self.move_plate(+1),
+            #'p' : self.toggle_pause,
+            'SPACE' : self.start_game
+        }
+        while True:
+            # display update
+            self.screen.fill((0, 0, 0))
+            if self.gameover:
+                self.center_msg("""Game Over! \n
+                Your score : %d Press space to continue""" % self.score)
+            else:
+                self.draw_matrix(self.board, (0,0))
+
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    for key in key_actions:
+                        if event.key == eval("pygame.K_"
+                                             + key):
+                            key_actions[key]()
+
+
+            dont_burn_my_cpu(maxfps)
+
 # if __name__ == '__main__':
 #     App = atari()
 #     App.run()
-#
-#
+
+# game = atari()
+# game.new_board()
+# game.new_plate()
+# game.move_plate(3)
+# game.screen.fill((0, 0, 0))
+# game.center_msg("horse")
+# pygame.display.update()
+# print(1)
+
