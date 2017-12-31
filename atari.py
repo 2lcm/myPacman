@@ -3,7 +3,7 @@ import pygame, sys
 cell_size = 5
 cols = 30
 rows = 40
-maxfps = 30
+maxfps = 5
 
 colors = [
     (0 ,0 ,0),
@@ -40,6 +40,7 @@ class atari(object):
         self.paused = False
         self.score = 0
         self.board = None
+        self.start_game()
 
     def new_board(self):
         brick_start = 3
@@ -50,9 +51,9 @@ class atari(object):
         # default board
 
     def new_ball(self):
-        self.ball_speed = [1, -1]
-        self.ball_x = plate_x + 1
-        self.ball_y = rows-4
+        self.ball_speed = [-1, -1]
+        self.ball_x = self.plate_x + 1
+        self.ball_y = rows-5
         self.join_matrixes(self.ball, self.board, self.ball_x, self.ball_y)
 
     def join_matrixes(self, mat1, mat2, mat1_x, mat1_y):
@@ -73,32 +74,32 @@ class atari(object):
 
         if new_x < 0:
             new_x = 0
-        if new_x + len(self.plate) > cols :
-            new_x = cols - len(self.plate)
+        if new_x + len(self.plate[0]) > cols :
+            new_x = cols - len(self.plate[0])
         self.plate_x = new_x
         self.join_matrixes(self.plate, self.board, self.plate_x, self.plate_y)
 
     def move_ball(self):
         self.collision()
-        self.board[self.ball_x][self.ball_y] = 0
+        self.board[self.ball_y][self.ball_x] = 0
         self.ball_x += self.ball_speed[0]
         self.ball_y += self.ball_speed[1]
-        self.board[self.ball_x][self.ball_y] = 2
-        if self.ball_y == rows :
+        self.board[self.ball_y][self.ball_x] = 2
+        if self.ball_y == rows - 1 :
             self.gameover = True
 
     def collision(self):
         check_corner = True
         if self.ball_speed[0] > 0:
             val = self.board[self.ball_y][self.ball_x + 1]
-            if not val:
+            if val:
                 self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
                 check_corner = False
                 if val == 1:
                     self.del_brick(self.ball_x + 1, self.ball_y)
         else:
             val = self.board[self.ball_y][self.ball_x - 1]
-            if not val:
+            if val:
                 self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
                 check_corner = False
                 if val == 1:
@@ -106,14 +107,14 @@ class atari(object):
 
         if self.ball_speed[1] > 0:
             val = self.board[self.ball_y + 1][self.ball_x]
-            if not val:
+            if val:
                 self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
                 check_corner = False
                 if val == 1:
                     self.del_brick(self.ball_x, self.ball_y + 1)
         else:
             val = self.board[self.ball_y - 1][self.ball_x]
-            if not val:
+            if val:
                 self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
                 check_corner = False
                 if val == 1:
@@ -121,14 +122,14 @@ class atari(object):
 
         if check_corner:
             val = self.board[self.ball_y + self.ball_speed[1]][self.ball_x + self.ball_speed[0]]
-            if not val:
+            if val:
                 self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
                 if val == 1:
                     self.del_brick(self.ball_x + self.ball_speed[0], self.ball_y + self.ball_speed[1])
 
     def del_brick(self, brick_x, brick_y):
         for i in range(3):
-            self.board[brick_y][int(brick_x / 3) + i] = 0
+            self.board[brick_y][int(brick_x / 3) * 3 + i] = 0
 
     def center_msg(self, msg):
         for i, line in enumerate(msg.splitlines()):
@@ -184,6 +185,7 @@ class atari(object):
                 Your score : %d Press space to continue""" % self.score)
             else:
                 self.draw_matrix(self.board, (0,0))
+                self.move_ball()
 
             pygame.display.update()
 
@@ -197,8 +199,7 @@ class atari(object):
                             key_actions[key]()
 
 
-            dont_burn_my_cpu(maxfps)
+            dont_burn_my_cpu.tick(maxfps)
 
 game = atari()
-game.start_game()
-print(1)
+game.run()
