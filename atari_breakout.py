@@ -46,39 +46,43 @@ class atari(object):
 
     # Check ball collision and handle it
     def collision(self):
-        # when collide to wall
-        if ([self.ball_x, self.ball_y] == [0, 0]) \
-                or ([self.ball_x, self.ball_y] == [cols, 0]):
-            self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
-        elif self.ball_x == 0 or self.ball == cols:
-            self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
-        elif self.ball_y == 0:
-            self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
-        elif self.ball_y == rows:
-            return
-        # when collide to brick or plate
+        check_corner = True
+        if self.ball_speed[0] > 0:
+            val = self.board[self.ball_y][self.ball_x + 1]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x + 1, self.ball_y)
         else:
-            check_corner = True
-            for i, off in enumerate([(0, -1), (1, 0), (0, 1), (-1, 0)]):
-                x = self.ball_x + off[0]
-                y = self.ball_y + off[1]
-                val = self.board[y][x]
-                if not val:
-                    check_corner = False
-                    if i == 0 or i == 3:
-                        self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
-                    else:
-                        self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
-                    self.del_brick(x, y)
-            if check_corner:
-                for i, off in enumerate([(-1, -1), (1, -1), (1, 1), (-1, 1)]):
-                    x = self.ball_x + off[0]
-                    y = self.ball_y + off[1]
-                    if (x * self.ball_speed[0] > 0) and (y * self.ball_speed[1] > 0):
-                        if not self.board[y][x]:
-                            self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
-                            break
+            val = self.board[self.ball_y][self.ball_x - 1]
+            if not val:
+                self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x - 1, self.ball_y)
 
+        if self.ball_speed[1] > 0:
+            val = self.board[self.ball_y + 1][self.ball_x]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x, self.ball_y + 1)
+        else:
+            val = self.board[self.ball_y - 1][self.ball_x]
+            if not val:
+                self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x, self.ball_y - 1)
+
+        if check_corner:
+            val = self.board[self.ball_y + self.ball_speed[1]][self.ball_x + self.ball_speed[0]]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
+                if val == 1:
+                    self.del_brick(self.ball_x + self.ball_speed[0], self.ball_y + self.ball_speed[1])
 
     def del_brick(self, brick_x, brick_y):
         # implement code
@@ -178,5 +182,5 @@ class atari(object):
 A = atari()
 A.new_board()
 A.new_plate()
-A.move_plate(3)
+A.collision(3)
 print("end")
