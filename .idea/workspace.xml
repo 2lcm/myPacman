@@ -17,8 +17,8 @@
             <file leaf-file-name="atari.py" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/atari.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-2100">
-                    <caret line="8" column="14" lean-forward="true" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+                  <state relative-caret-position="407">
+                    <caret line="117" column="38" lean-forward="true" selection-start-line="117" selection-start-column="38" selection-end-line="117" selection-end-column="38" />
                     <folding>
                       <element signature="e#0#36#0" expanded="true" />
                     </folding>
@@ -29,8 +29,8 @@
             <file leaf-file-name="tetris.py" pinned="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/../mytetris/tetris.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="-2324">
-                    <caret line="214" column="29" lean-forward="false" selection-start-line="214" selection-start-column="29" selection-end-line="214" selection-end-column="29" />
+                  <state relative-caret-position="45">
+                    <caret line="140" column="21" lean-forward="true" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
                     <folding />
                   </state>
                 </provider>
@@ -46,22 +46,10 @@
       <file leaf-file-name="atari_breakout.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/atari_breakout.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="88" column="12" lean-forward="true" selection-start-line="88" selection-start-column="12" selection-end-line="88" selection-end-column="12" />
+            <state relative-caret-position="-944">
+              <caret line="124" column="9" lean-forward="true" selection-start-line="124" selection-start-column="9" selection-end-line="124" selection-end-column="9" />
               <folding>
                 <element signature="e#101#114#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="re_atari_breakout.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/re_atari_breakout.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,6 +67,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Rect</find>
+      <find>set_mode</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,14 +169,34 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <list size="2">
+    <configuration name="tetris" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../mytetris" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mybreakout" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../mytetris/tetris.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Python.atari_breakout" />
       <item index="1" class="java.lang.String" itemvalue="Python.re_atari_breakout" />
+      <item index="2" class="java.lang.String" itemvalue="Python.tetris" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.atari_breakout" />
-        <item index="1" class="java.lang.String" itemvalue="Python.re_atari_breakout" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Python.tetris" />
+        <item index="1" class="java.lang.String" itemvalue="Python.atari_breakout" />
+        <item index="2" class="java.lang.String" itemvalue="Python.re_atari_breakout" />
       </list>
     </recent_temporary>
   </component>
@@ -235,12 +244,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/atari_breakout.py</url>
-          <line>185</line>
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
@@ -276,14 +279,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mytetris/tetris.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2324">
-          <caret line="214" column="29" lean-forward="false" selection-start-line="214" selection-start-column="29" selection-end-line="214" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/re_atari_breakout.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="431">
@@ -294,10 +289,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../mytetris/tetris.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="140" column="21" lean-forward="true" selection-start-line="140" selection-start-column="21" selection-end-line="140" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/atari.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2100">
-          <caret line="8" column="14" lean-forward="true" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
+        <state relative-caret-position="407">
+          <caret line="117" column="38" lean-forward="true" selection-start-line="117" selection-start-column="38" selection-end-line="117" selection-end-column="38" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
           </folding>
@@ -306,8 +309,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/atari_breakout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="88" column="12" lean-forward="true" selection-start-line="88" selection-start-column="12" selection-end-line="88" selection-end-column="12" />
+        <state relative-caret-position="-944">
+          <caret line="124" column="9" lean-forward="true" selection-start-line="124" selection-start-column="9" selection-end-line="124" selection-end-column="9" />
           <folding>
             <element signature="e#101#114#0" expanded="true" />
           </folding>

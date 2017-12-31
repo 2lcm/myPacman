@@ -34,7 +34,7 @@ class atari(object):
         self.board = None
         self.ball = [1]
         self.plate = [[3 for i in range(4)]]
-        self.ball_speed = [0, 0]
+        self.ball_speed = [1, 1]
         self.ball_x = 0
         self.ball_y = 0
         self.plate_x = 0
@@ -85,8 +85,8 @@ class atari(object):
                     self.del_brick(self.ball_x + self.ball_speed[0], self.ball_y + self.ball_speed[1])
 
     def del_brick(self, brick_x, brick_y):
-        # implement code
-        pass
+        for i in range(3):
+            self.board[brick_y][int(brick_x / 3) + i] = 0
 
     def run(self):
         dont_burn_my_cpu = pygame.time.Clock()
@@ -179,8 +179,4 @@ class atari(object):
                 self.height // 2 - msgim_center_y + i * 22))
 
 
-A = atari()
-A.new_board()
-A.new_plate()
-A.collision(3)
 print("end")
