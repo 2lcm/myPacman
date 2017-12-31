@@ -28,7 +28,7 @@ class atari(object):
         self.default_font = pygame.font.Font(
             pygame.font.get_default_font(), 12
         )
-        self.ball = [1]
+        self.ball = [[2]]
         self.plate = [[3 for i in range(4)]]
         self.ball_speed = [0, 0]
         self.ball_x = 0
@@ -46,6 +46,12 @@ class atari(object):
         self.board += [[0 for x in range(cols)] for y in range(rows - brick_start - layer)]
         # default board
 
+
+    def new_ball(self):
+        self.ball_speed = [1, -1]
+        self.ball_x = plate_x + 1
+        self.ball_y = rows-4
+        self.join_matrixes(self.ball, self.board, self.ball_x, self.ball_y)
 
 
     def join_matrixes(self, mat1, mat2, mat1_x, mat1_y):
@@ -76,7 +82,11 @@ class atari(object):
 
         self.join_matrixes(self.plate, self.board, self.plate_x, self.plate_y)
 
-
+game = atari()
+game.new_board()
+game.new_plate()
+game.new_ball()
+print(1)
 #     def move_ball(self):
 #         self.collision()
 #         self.board[self.ball_x][self.ball_y] = 0
@@ -117,27 +127,27 @@ class atari(object):
 #                         self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
 #                         break
 #
-    def center_msg(self, msg):
-        for i, line in enumerate(msg.splitlines()):
-            msg_image = self.default_font.render(line, False,
-                                                 (255, 255, 255), (0, 0, 0))
-
-            msgim_center_x, msgim_center_y = msg_image.get_size()
-            msgim_center_x //= 2
-            msgim_center_y //= 2
-
-            self.screen.blit(msg_image, (
-                self.width // 2 - msgim_center_x,
-                self.height // 2 - msgim_center_y + i*22))
-
-game = atari()
-game.new_board()
-game.new_plate()
-game.move_plate(3)
-game.screen.fill((0, 0, 0))
-game.center_msg("horse")
-pygame.display.update()
-print(1)
+#     def center_msg(self, msg):
+#         for i, line in enumerate(msg.splitlines()):
+#             msg_image = self.default_font.render(line, False,
+#                                                  (255, 255, 255), (0, 0, 0))
+#
+#             msgim_center_x, msgim_center_y = msg_image.get_size()
+#             msgim_center_x //= 2
+#             msgim_center_y //= 2
+#
+#             self.screen.blit(msg_image, (
+#                 self.width // 2 - msgim_center_x,
+#                 self.height // 2 - msgim_center_y + i*22))
+#
+# game = atari()
+# game.new_board()
+# game.new_plate()
+# game.move_plate(3)
+# game.screen.fill((0, 0, 0))
+# game.center_msg("horse")
+# pygame.display.update()
+# print(1)
 
 #     def draw_matrix(self, matrix, offset):
 #         off_x, off_y = offset
