@@ -38,6 +38,7 @@ class atari(object):
         self.gameover = False
         self.paused = False
         self.score = 0
+
     def new_board(self):
         brick_start = 3
         layer = 5
@@ -46,20 +47,15 @@ class atari(object):
         self.board += [[0 for x in range(cols)] for y in range(rows - brick_start - layer)]
         # default board
 
-
-
     def join_matrixes(self, mat1, mat2, mat1_x, mat1_y):
         for cy, row in enumerate(mat1):
             for cx, val in enumerate(row):
                 mat2[mat1_y+cy][mat1_x+cx] = val
 
-
-
     def new_plate(self):
         self.plate_x = int(cols / 2 - len(self.plate) /2)
         self.plate_y = rows-3
         self.join_matrixes(self.plate, self.board, self.plate_x, self.plate_y)
-
 
     def move_plate(self, delta_x):
         for i in range(self.plate_x, self.plate_x + len(self.plate[0]), 1):
@@ -71,52 +67,62 @@ class atari(object):
             new_x = 0
         if new_x + len(self.plate) > cols :
             new_x = cols - len(self.plate)
-
         self.plate_x = new_x
-
         self.join_matrixes(self.plate, self.board, self.plate_x, self.plate_y)
 
 
-#     def move_ball(self):
-#         self.collision()
-#         self.board[self.ball_x][self.ball_y] = 0
-#         self.ball_x += self.ball_speed[0]
-#         self.ball_y += self.ball_speed[1]
-#         self.board[self.ball_x][self.ball_y] = 2
-#         if self.ball_y == rows :
-#             self.gameover = True
-#
-#     def collision(self):
-#         # when collide to wall
-#         if ([self.ball_x, self.ball_y] == [0 , 0])\
-#                 or ([self.ball_x, self.ball_y] == [cols, 0]):
-#             self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
-#         elif self.ball_x == 0 or self.ball == cols:
-#             self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
-#         elif self.ball_y == 0:
-#             self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
-#         elif self.ball_y == rows:
-#             return
-#         # when collide to brick or plate
-#         else:
-#             check_corner = True
-#             for i, off in enumerate([(0, -1), (1, 0), (0, 1), (-1, 0)]):
-#                 x = self.ball_x + off[0]
-#                 y = self.ball_y + off[1]
-#                 val = self.board[x][y]
-#                 if not val:
-#                     check_corner = False
-#                     if i == 0 or i == 3:
-#                         self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
-#                     else:
-#                         self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
-#                 # delete brick
-#             if check_corner:
-#                 for i, off in enumerate([(-1, -1), (1, -1), (1, 1), (-1, 1)]):
-#                     if not self.board[x][y]:
-#                         self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
-#                         break
-#
+    def move_ball(self):
+        self.collision()
+        self.board[self.ball_x][self.ball_y] = 0
+        self.ball_x += self.ball_speed[0]
+        self.ball_y += self.ball_speed[1]
+        self.board[self.ball_x][self.ball_y] = 2
+        if self.ball_y == rows :
+            self.gameover = True
+
+    def collision(self):
+        check_corner = True
+        if self.ball_speed[0] > 0:
+            val = self.board[self.ball_y][self.ball_x + 1]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x + 1, self.ball_y)
+        else:
+            val = self.board[self.ball_y][self.ball_x - 1]
+            if not val:
+                self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x - 1, self.ball_y)
+
+        if self.ball_speed[1] > 0:
+            val = self.board[self.ball_y + 1][self.ball_x]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x, self.ball_y + 1)
+        else:
+            val = self.board[self.ball_y - 1][self.ball_x]
+            if not val:
+                self.ball_speed = [self.ball_speed[0], -self.ball_speed[1]]
+                check_corner = False
+                if val == 1:
+                    self.del_brick(self.ball_x, self.ball_y - 1)
+
+        if check_corner:
+            val = self.board[self.ball_y + self.ball_speed[1]][self.ball_x + self.ball_speed[0]]
+            if not val:
+                self.ball_speed = [-self.ball_speed[0], -self.ball_speed[1]]
+                if val == 1:
+                    self.del_brick(self.ball_x + self.ball_speed[0], self.ball_y + self.ball_speed[1])
+
+    def del_brick(self, brick_x, brick_y):
+        for i in range(3):
+            self.board[brick_y][int(brick_x / 3) + i] = 0
+
     def center_msg(self, msg):
         for i, line in enumerate(msg.splitlines()):
             msg_image = self.default_font.render(line, False,
